@@ -1,0 +1,351 @@
+-------------------DDL----------------------------
+
+CREATE DATABASE mt_db;
+USE mt_db;
+
+
+
+Create table CUSTOMER_MASTER
+(
+	CUSTOMER_ID Varchar(10),
+	CUSTOMER_NAME Varchar(30) NOT NULL,
+	CONTACT_NO BIGINT(10),
+	CONTACT_ADD Varchar(20),
+	DATE_OF_REGISTRATION Date NOT NULL,
+	AGE Varchar(15)NOT NULL,
+	Constraint MT_cts1 PRIMARY KEY(CUSTOMER_ID)
+);--
+
+Create table LIBRARY_CARD_MASTER
+(
+	CARD_ID Varchar(10),
+	DESCRIPTION Varchar(30) NOT NULL,
+	AMOUNT	BIGINT(50),
+	NUMBER_OF_YEARS bigint(10) NOT NULL,
+	Constraint MT_cts2 PRIMARY KEY(CARD_ID)
+);
+
+
+Create table MOVIES_MASTER
+(
+	MOVIE_ID Varchar(10),	
+	MOVIE_NAME Varchar(50) NOT NULL,
+	RELEASE_DATE Varchar(30) NOT NULL,
+	LANGUAGE Varchar(30),
+	RATING int(2),
+	DURATION VARCHAR(10) NOT NULL,	
+	MOVIE_TYPE Varchar(3),
+	MOVIE_CATEGORY VARCHAR(20) NOT NULL,
+	DIRECTOR VARCHAR(20) NOT NULL,		
+	LEAD_ROLE_1 Varchar(3) NOT NULL,
+	LEAD_ROLE_2 VARCHAR(4) NOT NULL,
+	RENT_COST BIGINT(10),
+	Constraint MT_cts4 PRIMARY KEY(MOVIE_ID)	
+);
+
+Create table CUSTOMER_CARD_DETAILS
+(
+	CUSTOMER_ID Varchar(10),
+	CARD_ID VARCHAR(10),
+	ISSUE_DATE DATE NOT NULL,
+	Constraint MT_cts3 PRIMARY KEY(CUSTOMER_ID),
+	Constraint MT_CTS41 FOREIGN KEY(CUSTOMER_ID) References CUSTOMER_MASTER(CUSTOMER_ID),
+        Constraint MT_CTS42 FOREIGN KEY(CARD_ID) References LIBRARY_CARD_MASTER(CARD_ID)
+);
+
+Create table CUSTOMER_ISSUE_DETAILS
+(
+	ISSUE_ID Varchar(10) NOT NULL,
+	CUSTOMER_ID Varchar(10) NOT NULL,
+	MOVIE_ID VARCHAR(10),	
+	ISSUE_DATE Date NOT NULL,
+	RETURN_DATE Date NOT NULL,
+        ACTUAL_DATE_RETURN Date NOT NULL,
+	Constraint MT_cts5 PRIMARY KEY(ISSUE_ID),
+        Constraint MT_Mem FOREIGN KEY(CUSTOMER_ID) References CUSTOMER_MASTER(CUSTOMER_ID),
+        Constraint MT_Mem1 FOREIGN KEY(MOVIE_ID) References MOVIES_MASTER(MOVIE_ID)
+
+);
+
+
+
+-------------------DML----------------------------
+
+
+Insert into CUSTOMER_MASTER Values('CUS001', 'AMIT', 9876543210,'ADD1', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS002', 'ABDHUL', 8765432109,'ADD2', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS003', 'GAYAN', 7654321098,'ADD3', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS004', 'RADHA', 6543210987,'ADD4', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS005', 'GURU', NULL,'ADD5', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS006', 'MOHAN', 4321098765,'ADD6', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS007', 'NAME7', 3210987654,'ADD7', '2012-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS008', 'NAME8', 2109876543,'ADD8', '2013-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS009', 'NAME9', NULL,'ADD9', '2013-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS010', 'NAM10', 9934567890,'ADD10', '2013-02-12', '21');
+Insert into CUSTOMER_MASTER Values('CUS011', 'NAM11', 9875678910,'ADD11', '2013-02-12', '21');
+
+Insert into LIBRARY_CARD_MASTER Values('CR001', 'Silver', 200, 5);
+Insert into LIBRARY_CARD_MASTER Values('CR002', 'Gold', 400, 9);
+Insert into LIBRARY_CARD_MASTER Values('CR003', 'Platinum', 600, 8);
+Insert into LIBRARY_CARD_MASTER Values('CR004', 'VISA', 800, 7);
+Insert into LIBRARY_CARD_MASTER Values('CR005', 'CREDIT', 1200, 6);
+
+Insert into MOVIES_MASTER Values('MV001', 'DIEHARD', '2012-05-13','ENGLISH', 4 , '2HRS', 'U/A','ACTION','DIR1','L1','L2',100);
+Insert into MOVIES_MASTER Values('MV002', 'THE MATRIX', '2012-05-13','ENGLISH', 4 , '2HRS', 'A','ACTION','DIR2','L1','L2',100);
+Insert into MOVIES_MASTER Values('MV003', 'INCEPTION', '2012-05-13','ENGLISH', 4 , '2HRS', 'U/A','ACTION','DIR3','L15','L2',100);
+Insert into MOVIES_MASTER Values('MV004', 'DARK KNIGHT', '2012-05-13','ENGLISH', 4 , '2HRS', 'A','ACTION','DIR4','L15','L2',100);
+Insert into MOVIES_MASTER Values('MV005', 'OFFICE S', '2012-05-13','ENGLISH', 4 , '2HRS', 'U/A','COMEDY','DIR5','L12','L24',100);
+Insert into MOVIES_MASTER Values('MV006', 'SHAWN OF DEAD', '2012-05-13','ENGLISH', 4 , '2HRS', 'U/A','COMEDY','DIR6','L1','L25',100);
+Insert into MOVIES_MASTER Values('MV007', 'YOUNG FRANKEN', '2012-05-13','ENGLISH', 4 , '2HRS', 'U/A','COMEDY','DIR7','L1','L2',100);
+Insert into MOVIES_MASTER Values('MV008', 'CAS', '2012-05-13','ENGLISH', 4 , '2HRS', 'A','ROMANCE','DIR8','L1','L2',100);
+Insert into MOVIES_MASTER Values('MV009', 'GWW', '2012-05-13','ENGLISH', 4 , '2HRS', 'A','ROMANCE','DIR9','L1','L2',100);
+Insert into MOVIES_MASTER Values('MV010', 'TITANIC', '2012-05-13','ENGLISH', 4 , '2HRS', 'A','ROMANCE','DIR10','L1','L2',100);
+Insert into MOVIES_MASTER Values('MV011', 'THE NOTE BOOK', '2012-05-13','ENGLISH', 4 , '2HRS', 'A','ROMANCE','DIR11','L1','L2',100);
+
+
+Insert into CUSTOMER_CARD_DETAILS Values('CUS001', 'CR001', '2012-05-13');
+Insert into CUSTOMER_CARD_DETAILS Values('CUS002', 'CR002', '2012-05-13');
+Insert into CUSTOMER_CARD_DETAILS Values('CUS003', 'CR002', '2013-05-13');
+Insert into CUSTOMER_CARD_DETAILS Values('CUS004', 'CR003', '2013-05-13');
+Insert into CUSTOMER_CARD_DETAILS Values('CUS005', 'CR003', '2012-05-13');
+
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS001', 'CUS001', 'MV001', '2012-05-13', '2012-05-13','2012-05-13');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS002', 'CUS001', 'MV001', '2012-05-01', '2012-05-16','2012-05-16');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS003', 'CUS002', 'MV004', '2012-05-02', '2012-05-06','2012-05-16');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS004', 'CUS002', 'MV004', '2012-04-03', '2012-04-16','2012-04-20');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS005', 'CUS002', 'MV009', '2012-04-04', '2012-04-16','2012-04-20');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS006', 'CUS003', 'MV002', '2012-03-30', '2012-04-15','2012-04-20');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS007', 'CUS003', 'MV003', '2012-04-20', '2012-05-05','2012-05-05');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS008', 'CUS003', 'MV005', '2012-04-21', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS009', 'CUS003', 'MV001', '2012-04-22', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS010', 'CUS003', 'MV009', '2012-04-22', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS011', 'CUS003', 'MV010', '2012-04-23', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS012', 'CUS003', 'MV010', '2012-04-24', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS013', 'CUS003', 'MV008', '2012-04-25', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS014', 'CUS004', 'MV007', '2012-04-26', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS015', 'CUS004', 'MV006', '2012-04-27', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS016', 'CUS004', 'MV006', '2012-04-28', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS017', 'CUS004', 'MV001', '2012-04-29', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS018', 'CUS010', 'MV008', '2012-04-24', '2012-05-07','2012-05-25');
+Insert into CUSTOMER_ISSUE_DETAILS Values ('IS019', 'CUS011', 'MV009', '2012-04-27', '2012-05-07','2012-05-25');
+
+
+
+-------------------LAYOUT----------------------------
+
+mysql> show tables;
++------------------------+
+| Tables_in_mms          |
++------------------------+
+| customer_card_details  |
+| customer_issue_details |
+| customer_master        |
+| library_card_master    |
+| movies_master          |
++------------------------+
+5 rows in set (0.01 sec)
+
+____________________________________________________________________________
+
+
+mysql> desc movies_master;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| MOVIE_ID       | varchar(10) | NO   | PRI |         |       |
+| MOVIE_NAME     | varchar(50) | NO   |     | NULL    |       |
+| RELEASE_DATE   | varchar(30) | NO   |     | NULL    |       |
+| LANGUAGE       | varchar(30) | YES  |     | NULL    |       |
+| RATING         | int(2)      | YES  |     | NULL    |       |
+| DURATION       | varchar(10) | NO   |     | NULL    |       |
+| MOVIE_TYPE     | varchar(3)  | YES  |     | NULL    |       |
+| MOVIE_CATEGORY | varchar(20) | NO   |     | NULL    |       |
+| DIRECTOR       | varchar(20) | NO   |     | NULL    |       |
+| LEAD_ROLE_1    | varchar(3)  | NO   |     | NULL    |       |
+| LEAD_ROLE_2    | varchar(4)  | NO   |     | NULL    |       |
+| RENT_COST      | bigint(10)  | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+12 rows in set (0.05 sec)
+
+
+mysql> SELECT * FROM movies_master;
++----------+---------------+--------------+----------+--------+----------+------------+----------------+----------+-------------+-------------+-----------+
+| MOVIE_ID | MOVIE_NAME    | RELEASE_DATE | LANGUAGE | RATING | DURATION | MOVIE_TYPE | MOVIE_CATEGORY | DIRECTOR | LEAD_ROLE_1 | LEAD_ROLE_2 | RENT_COST |
++----------+---------------+--------------+----------+--------+----------+------------+----------------+----------+-------------+-------------+-----------+
+| MV001    | DIEHARD       | 2012-05-13   | ENGLISH  |      4 | 2HRS     | U/A        | ACTION         | DIR1     | L1          | L2          |       100 |
+| MV002    | THE MATRIX    | 2012-05-13   | ENGLISH  |      4 | 2HRS     | A          | ACTION         | DIR2     | L1          | L2          |       100 |
+| MV003    | INCEPTION     | 2012-05-13   | ENGLISH  |      4 | 2HRS     | U/A        | ACTION         | DIR3     | L15         | L2          |       100 |
+| MV004    | DARK KNIGHT   | 2012-05-13   | ENGLISH  |      4 | 2HRS     | A          | ACTION         | DIR4     | L15         | L2          |       100 |
+| MV005    | OFFICE S      | 2012-05-13   | ENGLISH  |      4 | 2HRS     | U/A        | COMEDY         | DIR5     | L12         | L24         |       100 |
+| MV006    | SHAWN OF DEAD | 2012-05-13   | ENGLISH  |      4 | 2HRS     | U/A        | COMEDY         | DIR6     | L1          | L25         |       100 |
+| MV007    | YOUNG FRANKEN | 2012-05-13   | ENGLISH  |      4 | 2HRS     | U/A        | COMEDY         | DIR7     | L1          | L2          |       100 |
+| MV008    | CAS           | 2012-05-13   | ENGLISH  |      4 | 2HRS     | A          | ROMANCE        | DIR8     | L1          | L2          |       100 |
+| MV009    | GWW           | 2012-05-13   | ENGLISH  |      4 | 2HRS     | A          | ROMANCE        | DIR9     | L1          | L2          |       100 |
+| MV010    | TITANIC       | 2012-05-13   | ENGLISH  |      4 | 2HRS     | A          | ROMANCE        | DIR10    | L1          | L2          |       100 |
+| MV011    | THE NOTE BOOK | 2012-05-13   | ENGLISH  |      4 | 2HRS     | A          | ROMANCE        | DIR11    | L1          | L2          |       100 |
++----------+---------------+--------------+----------+--------+----------+------------+----------------+----------+-------------+-------------+-----------+
+11 rows in set (0.00 sec)
+
+________________________________________________________________________________________________________________________________________________________
+
+mysql> desc customer_master;
++----------------------+-------------+------+-----+---------+-------+
+| Field                | Type        | Null | Key | Default | Extra |
++----------------------+-------------+------+-----+---------+-------+
+| CUSTOMER_ID          | varchar(10) | NO   | PRI |         |       |
+| CUSTOMER_NAME        | varchar(30) | NO   |     | NULL    |       |
+| CONTACT_NO           | bigint(10)  | YES  |     | NULL    |       |
+| CONTACT_ADD          | varchar(20) | YES  |     | NULL    |       |
+| DATE_OF_REGISTRATION | date        | NO   |     | NULL    |       |
+| AGE                  | varchar(15) | NO   |     | NULL    |       |
++----------------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+
+mysql> SELECT * FROM customer_master;
++-------------+---------------+------------+-------------+----------------------+-----+
+| CUSTOMER_ID | CUSTOMER_NAME | CONTACT_NO | CONTACT_ADD | DATE_OF_REGISTRATION | AGE |
++-------------+---------------+------------+-------------+----------------------+-----+
+| CUS001      | AMIT          | 9876543210 | ADD1        | 2012-02-12           | 21  |
+| CUS002      | ABDHUL        | 8765432109 | ADD2        | 2012-02-12           | 21  |
+| CUS003      | GAYAN         | 7654321098 | ADD3        | 2012-02-12           | 21  |
+| CUS004      | RADHA         | 6543210987 | ADD4        | 2012-02-12           | 21  |
+| CUS005      | GURU          |       NULL | ADD5        | 2012-02-12           | 21  |
+| CUS006      | MOHAN         | 4321098765 | ADD6        | 2012-02-12           | 21  |
+| CUS007      | NAME7         | 3210987654 | ADD7        | 2012-02-12           | 21  |
+| CUS008      | NAME8         | 2109876543 | ADD8        | 2013-02-12           | 21  |
+| CUS009      | NAME9         |       NULL | ADD9        | 2013-02-12           | 21  |
+| CUS010      | NAM10         | 9934567890 | ADD10       | 2013-02-12           | 21  |
+| CUS011      | NAM11         | 9875678910 | ADD11       | 2013-02-12           | 21  |
++-------------+---------------+------------+-------------+----------------------+-----+
+11 rows in set (0.00 sec)
+
+
+________________________________________________________________________________________________________________________________________________________
+
+
+mysql> desc library_card_master;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| CARD_ID         | varchar(10) | NO   | PRI |         |       |
+| DESCRIPTION     | varchar(30) | NO   |     | NULL    |       |
+| AMOUNT          | bigint(50)  | YES  |     | NULL    |       |
+| NUMBER_OF_YEARS | bigint(10)  | NO   |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+
+mysql> select * from  library_card_master;
++---------+-------------+--------+-----------------+
+| CARD_ID | DESCRIPTION | AMOUNT | NUMBER_OF_YEARS |
++---------+-------------+--------+-----------------+
+| CR001   | Silver      |    200 |               5 |
+| CR002   | Gold        |    400 |               9 |
+| CR003   | Platinum    |    600 |               8 |
+| CR004   | VISA        |    800 |               7 |
+| CR005   | CREDIT      |   1200 |               6 |
++---------+-------------+--------+-----------------+
+5 rows in set (0.00 sec)
+
+
+________________________________________________________________________________________________________________________________________________________
+
+
+
+mysql> desc customer_card_details;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| CUSTOMER_ID | varchar(10) | NO   | PRI |         |       |
+| CARD_ID     | varchar(10) | YES  | MUL | NULL    |       |
+| ISSUE_DATE  | date        | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+
+mysql> SELECT * FROM customer_card_details;
++-------------+---------+------------+
+| CUSTOMER_ID | CARD_ID | ISSUE_DATE |
++-------------+---------+------------+
+| CUS001      | CR001   | 2012-05-13 |
+| CUS002      | CR002   | 2012-05-13 |
+| CUS003      | CR002   | 2013-05-13 |
+| CUS004      | CR003   | 2013-05-13 |
+| CUS005      | CR003   | 2012-05-13 |
++-------------+---------+------------+
+5 rows in set (0.00 sec)
+
+
+________________________________________________________________________________________________________________________________________________________
+
+
+
+mysql> desc customer_issue_details;
++--------------------+-------------+------+-----+---------+-------+
+| Field              | Type        | Null | Key | Default | Extra |
++--------------------+-------------+------+-----+---------+-------+
+| ISSUE_ID           | varchar(10) | NO   | PRI | NULL    |       |
+| CUSTOMER_ID        | varchar(10) | NO   | MUL | NULL    |       |
+| MOVIE_ID           | varchar(10) | YES  | MUL | NULL    |       |
+| ISSUE_DATE         | date        | NO   |     | NULL    |       |
+| RETURN_DATE        | date        | NO   |     | NULL    |       |
+| ACTUAL_DATE_RETURN | date        | NO   |     | NULL    |       |
++--------------------+-------------+------+-----+---------+-------+
+6 rows in set (0.03 sec)
+
+
+mysql> SELECT * FROM customer_issue_details;
++----------+-------------+----------+------------+-------------+--------------------+
+| ISSUE_ID | CUSTOMER_ID | MOVIE_ID | ISSUE_DATE | RETURN_DATE | ACTUAL_DATE_RETURN |
++----------+-------------+----------+------------+-------------+--------------------+
+| IS001    | CUS001      | MV001    | 2012-05-13 | 2012-05-13  | 2012-05-13         |
+| IS002    | CUS001      | MV001    | 2012-05-01 | 2012-05-16  | 2012-05-16         |
+| IS003    | CUS002      | MV004    | 2012-05-02 | 2012-05-06  | 2012-05-16         |
+| IS004    | CUS002      | MV004    | 2012-04-03 | 2012-04-16  | 2012-04-20         |
+| IS005    | CUS002      | MV009    | 2012-04-04 | 2012-04-16  | 2012-04-20         |
+| IS006    | CUS003      | MV002    | 2012-03-30 | 2012-04-15  | 2012-04-20         |
+| IS007    | CUS003      | MV003    | 2012-04-20 | 2012-05-05  | 2012-05-05         |
+| IS008    | CUS003      | MV005    | 2012-04-21 | 2012-05-07  | 2012-05-25         |
+| IS009    | CUS003      | MV001    | 2012-04-22 | 2012-05-07  | 2012-05-25         |
+| IS010    | CUS003      | MV009    | 2012-04-22 | 2012-05-07  | 2012-05-25         |
+| IS011    | CUS003      | MV010    | 2012-04-23 | 2012-05-07  | 2012-05-25         |
+| IS012    | CUS003      | MV010    | 2012-04-24 | 2012-05-07  | 2012-05-25         |
+| IS013    | CUS003      | MV008    | 2012-04-25 | 2012-05-07  | 2012-05-25         |
+| IS014    | CUS004      | MV007    | 2012-04-26 | 2012-05-07  | 2012-05-25         |
+| IS015    | CUS004      | MV006    | 2012-04-27 | 2012-05-07  | 2012-05-25         |
+| IS016    | CUS004      | MV006    | 2012-04-28 | 2012-05-07  | 2012-05-25         |
+| IS017    | CUS004      | MV001    | 2012-04-29 | 2012-05-07  | 2012-05-25         |
+| IS018    | CUS010      | MV008    | 2012-04-24 | 2012-05-07  | 2012-05-25         |
+| IS019    | CUS011      | MV009    | 2012-04-27 | 2012-05-07  | 2012-05-25         |
++----------+-------------+----------+------------+-------------+--------------------+
+19 rows in set (0.00 sec)
+
+
+_______________________________________________________________________________________________________________
+
+Problem#1
+display customer name,customer id who have issued max and min no.of movies
+
+Problem #2
+display id,name,mobile num and description of all customers.if 
+mobile num is not available then display address as alias contact,for 
+those who does't have library cards display null as description
+
+Problem #3
+display customer details and movie id for those who issued same movie more than one time OR
+//dislay customer details who watched same movie more than once
+
+Problem #4
+display customer information those who has library cards
+
+Problem #5
+
+display the members who watch the movie but doesnt have card
+
+Prblem #6
+display sr no as 2 digits of issue id,emp id,movie watched,video id 
+and sort by sr no
+
+Problem #7
+display total revenue spent on videos by each customer
